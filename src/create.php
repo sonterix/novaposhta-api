@@ -1,17 +1,10 @@
 <?php
 
-require_once 'HTTP/Request2.php';
+// connect to db
+require_once 'np/connect.php';
 
 class Create
 {
-    // DB data
-    private $dbHost = 'localhost';
-    private $dbName = 'api_np';
-    private $dbUser = 'root';
-    private $dbPass = '380636890256';
-    private $dbChar = 'utf8';
-    private $dbh;
-
     // Data from json
     private $json;
     private $ttnArr;
@@ -28,80 +21,51 @@ class Create
     function __construct() 
     {
        
-        // Sample uses the Apache HTTP client from HTTP Components
-        $request = new Http_Request2('http://testapi.novaposhta.ua/v2.0/en/save_warehouse/json/');
-        $url = $request->getUrl();
+        // cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://api.novaposhta.ua/v2.0/json/');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-type: application/json'
+        ]);
 
-        // Connect to DB and get data
-        $this->connectDb();
-        $this->getDataFromPost();
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+            "apiKey" => "5bd4dd448fed718052dc3d242ee4337f",
+            "modelName" => "InternetDocument",
+            "calledMethod" => "save",
+            "methodProperties" => [  
+                "NewAddress" => "1",
+                "PayerType" => "Recipient",
+                "PaymentMethod" => "Cash",
+                "CargoType" => "Parcel",
+                "VolumeGeneral" => "0.1",
+                "Weight" => "'.$this->post['weight'].'",
+                "ServiceType" => "WarehouseWarehouse",
+                "SeatsAmount" => "1",
+                "Description" => "Посылка",
+                "Cost" => "'.$this->post['cost'].'",
+                "CitySender" => "e71629ab-4b33-11e4-ab6d-005056801329",
+                "SenderAddress" => "08eb8369-a2c6-11e7-becf-005056881c6b",
+                "Sender" => "81985550-a1e8-11e7-8ba8-005056881c6b",
+                "ContactSender" => "819d974e-a1e8-11e7-8ba8-005056881c6b",
+                "SendersPhone" => "380636890256",
+                "RecipientCityName" => "'.$this->post['city'].'",
+                "RecipientArea" => "",
+                "RecipientAreaRegions" => "",
+                "RecipientAddressName" => "'.$this->post['npNumb'].'",
+                "RecipientHouse" => "",
+                "RecipientFlat" => "",
+                "RecipientName" => "'.$this->post['name'].'",
+                "RecipientType" => "PrivatePerson",
+                "RecipientsPhone" => "'.$this->post['phone'].'",
+                "DateTime" => "'.$this->date.'"
+            ]
+        ]));
 
-        $headers = array(
-            'Content-Type' => 'application/json',
-        );
-        
-        $request->setHeader($headers);
-        
-        // Request headers
-        $parameters = [
-           '{
-                "modelName":"InternetDocument",
-                "calledMethod":"save"
-            }'
-        ];
-
-        $url->setQueryVariables($parameters);
-        $request->setMethod(HTTP_Request2::METHOD_POST);
-
-        // Request body
-        $request->setBody(
-            '{  
-                "apiKey": "5bd4dd448fed718052dc3d242ee4337f",
-                "modelName":"InternetDocument",
-                "calledMethod":"save",
-                "methodProperties":{  
-                    "NewAddress":"1",
-                    "PayerType":"Recipient",
-                    "PaymentMethod":"Cash",
-                    "CargoType":"Parcel",
-                    "VolumeGeneral":"0.1",
-                    "Weight": "'.$this->post['weight'].'",
-                    "ServiceType":"WarehouseWarehouse",
-                    "SeatsAmount":"1",
-                    "Description":"Посылка",
-                    "Cost": "'.$this->post['cost'].'",
-                    "CitySender":"e71629ab-4b33-11e4-ab6d-005056801329",
-                    "SenderAddress":"08eb8369-a2c6-11e7-becf-005056881c6b",
-                    "Sender":"81985550-a1e8-11e7-8ba8-005056881c6b",
-                    "ContactSender":"819d974e-a1e8-11e7-8ba8-005056881c6b",
-                    "SendersPhone":"380636890256",
-                    "RecipientCityName": "'.$this->post['city'].'",
-                    "RecipientArea": "",
-                    "RecipientAreaRegions":"",
-                    "RecipientAddressName": "'.$this->post['npNumb'].'",
-                    "RecipientHouse":"",
-                    "RecipientFlat":"",
-                    "RecipientName": "'.$this->post['name'].'",
-                    "RecipientType":"PrivatePerson",
-                    "RecipientsPhone": "'.$this->post['phone'].'",
-                    "DateTime": "'.$this->date.'"
-                }
-            }'
-        );
-        
-        // Send POST to novaposhta API
-        try
-        {
-            $this->response = $request->send();
-            //echo '<pre>' . $this->response->getBody();
-        }
-        catch (HttpException $ex)
-        {
-            //echo $ex;
-        }
-
-        $this->getDataFromResponse();
-        $this->addToDb($this->statusArr[1]);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        var_dump($data);die();
 
         // Show template
         require_once 'status.php';
@@ -130,18 +94,6 @@ class Create
 
         $this->ttn = substr($this->ttnArr[1], 1, 14);
         $this->created = substr($this->createdArr[1], 1, 10);
-    }
-
-    // Connect to DB
-    function connectDb()
-    {
-        $dsn = 'mysql:host='.$this->dbHost.';dbname='.$this->dbName.';charset='.$this->dbChar;
-        $opt = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => FALSE,
-        ];
-        $this->dbh = new PDO($dsn, $this->dbUser, $this->dbPass, $opt);
     }
     
     // Add data to DB

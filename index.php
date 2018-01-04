@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- Website CSS style -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/select2.min.css">    
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="css/sweetalert2.min.css">
+    <link rel="stylesheet" href="css/main.css">
 
     <!-- Website Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -17,96 +17,65 @@
     <title>Create TTN</title>
 </head>
 <body>
-    <div class="container">
-        <div class="row main">
-            <div class="main-login main-center">
-                <div id="ttn">
-                    <img src="img/logo.png" class="img-responsive" alt="Новая Почта">
-                    <h1>CОЗДАТЬ ТТН</h1>
+
+    <section id="cteate-ttn-wrapper">
+        <div id="cteate-ttn">
+
+            <div id="ttn">
+                <div class="logo-np"></div>
+                <h1>CОЗДАТЬ ТТН</h1>
+            </div>
+
+            <form method="post" action="src/create.php" id="np-form">
+                <div class="input-wrapper">
+                    <label for="name">ФИО</label>
+                    <span class="icon-wrapper"><i class="fas fa-user"></i></span>
+                    <input type="text" id="name" name="Order[name]" placeholder="Введите ФИО">
                 </div>
 
-                <form method="post" action="src/create.php" id="formNp">
-                    
-                    <div class="form-group">
-                        <label for="name" class="cols-sm-2 control-label">ФИО</label>
-                        <div class="cols-sm-10">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" name="name" id="name"  placeholder="Введите ФИО">
-                            </div>
-                        </div>
-                    </div>
+                <div class="input-wrapper">
+                    <label for="phone">Номер Телефон</label>
+                    <span class="icon-wrapper"><i class="fas fa-phone"></i></span>
+                    <input type="text" id="phone" name="Order[phone]" placeholder="Введите Номер Телефона">
+                </div>
 
-                    <div class="form-group">
-                        <label for="phone" class="cols-sm-2 control-label">Номер Телефон</label>
-                        <div class="cols-sm-10">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" name="phone" id="phone"  placeholder="Введите Номер Телефона">
-                            </div>
-                        </div>
-                    </div>
+                <div class="input-wrapper">
+                    <label for="Order[city]">Город</label>
+                    <span class="icon-wrapper"><i class="fas fa-building"></i></span>
+                    <select id="select-city" name="Order[city]"></select>
+                </div>
 
-                    <div class="form-group">
-                        <label for="Order[city]" class="cols-sm-2 control-label">Город</label>
-                        <div class="cols-sm-10">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
-                                <select id="select-city" name="Order[city]">
-                                    <option value="null" disable>Выберите Город</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                <div class="input-wrapper">
+                    <label for="Order[department]">Номер Отделения</label>
+                    <span class="icon-wrapper"><i class="fas fa-arrows-alt"></i></span>
+                    <select id="select-department" name="Order[department]"></select>
+                </div>
 
-                    <div class="form-group">
-                        <label for="Order[secession]" class="cols-sm-2 control-label">Номер Отделения</label>
-                        <div class="cols-sm-10">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
-                                <select id="select-secession" name="Order[secession]">
-                                    <option value="null" disable>Выберите Отделение</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                <div class="input-wrapper">
+                    <label for="weight">Вес Посылки <small>(кг.)</small></label>
+                    <span class="icon-wrapper"><i class="fas fa-archive"></i></span>
+                    <input type="number" id="weight" name="Order[weight]" step="any" placeholder="Введите Вес Посылки">
+                </div>
 
-                    <div class="form-group">
-                        <label for="weight" class="cols-sm-2 control-label">Вес Посылки</label>
-                        <div class="cols-sm-10">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-saved" aria-hidden="true"></i></span>
-                                <input type="number" class="form-control" name="weight" id="weight" step="any" placeholder="Введите Вес Посылки">
-                            </div>
-                        </div>
-                    </div>
+                <div class="input-wrapper">
+                    <label for="cost">Цена <small>(грн.)</small></label>
+                    <span class="icon-wrapper"><i class="fas fa-dollar-sign"></i></span>
+                    <input type="number" id="cost" name="Order[cost]" step="any" placeholder="Введите Цену">
+                </div>
 
-                    <div class="form-group">
-                        <label for="cost" class="cols-sm-2 control-label">Цена</label>
-                        <div class="cols-sm-10">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-eur" aria-hidden="true"></i></span>
-                                <input type="number" class="form-control" name="cost" id="cost" step="any" placeholder="Введите Цену">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group ">
-                        <input type="submit" class="btn btn-light btn-lg btn-block login-button" name="submit" id="submit" value="Создать">
-                    </div>
-                    
-                </form>
-            </div>
+                <input type="submit" class="submit-btn" name="submit" value="Создать">
+            </form>
+
         </div>
-    </div>
+    </section>
 
     <!-- Website JS script -->
     <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>         
-    <script src="js/script.js"></script>
+    <script src="js/jquery.maskedinput.min.js"></script>      
     <script src="js/select2.min.js"></script>
     <script src="js/select2_ru.js"></script>
-    <script src="js/np.js"></script>
+    <script src="js/sweetalert2.min.js"></script>
+    <script src="js/main.js"></script>
 
 
 </body>

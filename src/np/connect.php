@@ -2,7 +2,7 @@
 
 // connect to DB
 $dbHost = 'localhost';
-$dbName = 'pineappletea100';
+$dbName = 'np-tracking';
 $dbUser = 'root';
 $dbPass = '';
 $dbChar = 'utf8';
