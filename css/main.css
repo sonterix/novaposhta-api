@@ -11,7 +11,6 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;    
 }
 
 input[type='number'] {
@@ -73,7 +72,7 @@ input::-webkit-inner-spin-button {
 }
 
 #cteate-ttn{
-    width: 450px;
+    max-width: 400px;
     padding: 10px 40px;
     background: #d91b1b;
     color: #FFF;
@@ -82,22 +81,23 @@ input::-webkit-inner-spin-button {
 
 #cteate-ttn .submit-btn{
     width: 100%;
-    margin-top: 35px;
-    margin-bottom: 20px;
+    margin-top: 25px;
+    margin-bottom: 10px;
     padding: 10px 15px;
     text-transform: uppercase;
     font-size: 18px;
     font-weight: bold;
-    color: #fff;
-    background: #d91b1b;
+    color: #d91b1b;
+    background: #fff;
     border: 3px solid #fff;
     border-radius: 5px;
     cursor: pointer;
     outline: none;
+    transition: 0.3s ease-in-out;
 }
 #cteate-ttn .submit-btn:hover {
-    color: #d91b1b;
-    background: #fff;
+    color: #fff;
+    background: #d91b1b;
 }
 
 #ttn{
@@ -109,6 +109,7 @@ input::-webkit-inner-spin-button {
     background-size: 50%;
 }
 #ttn h1{
+    margin: 20px 0;
     font-size: 36px;
 }
 
