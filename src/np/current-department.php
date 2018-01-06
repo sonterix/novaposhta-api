@@ -10,7 +10,7 @@ require_once 'connect.php';
 $cityKey =  strip_tags(trim($_POST["cityKey"]));
 
 // select data from db where city name equals $search
-$stm = $dbh->prepare("SELECT * FROM np_department WHERE city_ref LIKE :cityKey");
+$stm = $dbh->prepare("SELECT * FROM np_departments WHERE city_ref LIKE :cityKey");
 $stm->execute([':cityKey' => '%'.$cityKey.'%']);
 
 // check query result

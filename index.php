@@ -54,13 +54,13 @@
                 <div class="input-wrapper">
                     <label for="weight">Вес Посылки <small>(кг.)</small></label>
                     <span class="icon-wrapper"><i class="fas fa-archive"></i></span>
-                    <input type="number" id="weight" name="Order[weight]" step="any" placeholder="Введите Вес Посылки">
+                    <input type="number" id="weight" name="Order[weight]" step="0.001" placeholder="Введите Вес Посылки">
                 </div>
 
                 <div class="input-wrapper">
                     <label for="cost">Цена <small>(грн.)</small></label>
                     <span class="icon-wrapper"><i class="fas fa-dollar-sign"></i></span>
-                    <input type="number" id="cost" name="Order[cost]" step="any" placeholder="Введите Цену">
+                    <input type="number" id="cost" name="Order[cost]" step="0.01" placeholder="Введите Цену">
                 </div>
 
                 <input type="submit" class="submit-btn" name="submit" value="Создать">
